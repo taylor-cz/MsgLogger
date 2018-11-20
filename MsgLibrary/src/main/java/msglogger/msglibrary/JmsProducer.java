@@ -2,10 +2,13 @@ package msglogger.msglibrary;
 
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.jms.*;
 
 public class JmsProducer implements AutoCloseable {
+    private static final Logger LOG = LoggerFactory.getLogger(JmsProducer.class);
     private final MessageProducer producer;
     private final Session session;
     private Destination replyDest;
@@ -18,6 +21,7 @@ public class JmsProducer implements AutoCloseable {
 
     /**
      * Sets requested reply destination for messages sent with this producer.
+     *
      * @param destType
      * @param destName
      */
@@ -44,7 +48,7 @@ public class JmsProducer implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws JMSException {
         producer.close();
         session.close();
     }

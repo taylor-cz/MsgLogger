@@ -26,7 +26,7 @@ public class JmsConsumer implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws JMSException {
         consumer.close();
         session.close();
     }

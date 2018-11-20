@@ -23,7 +23,7 @@ public class JmsLibrary implements AutoCloseable {
     }
 
     public JmsConsumer getJmsConsumer(JmsDestType destType, String destName) throws JMSException {
-        MessageConsumer consumer = null;
+        MessageConsumer consumer;
         Session session = null;
         try {
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -64,6 +64,21 @@ public class JmsLibrary implements AutoCloseable {
                     destination = session.createTopic(destName);
                     break;
             }
+            producer = session.createProducer(destination);
+            producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+            return new JmsProducer(producer, session);
+        } catch (JMSException e) {
+            if (producer != null) producer.close();
+            if (session != null) session.close();
+            throw e;
+        }
+    }
+
+    public JmsProducer getJmsProducer(Destination destination) throws JMSException {
+        MessageProducer producer = null;
+        Session session = null;
+        try {
+            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             producer = session.createProducer(destination);
             producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
             return new JmsProducer(producer, session);

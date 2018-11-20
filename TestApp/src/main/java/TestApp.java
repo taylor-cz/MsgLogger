@@ -13,7 +13,7 @@ public class TestApp {
     public static void main(String[] args) throws InterruptedException {
         // simulate multiple running apps
         List<Thread> threads = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 15; i++) {
             Thread thr = new Thread(new TestAppThread(String.format("testapp-%04d", i)));
             thr.start();
             threads.add(thr);

@@ -23,7 +23,7 @@ public class MsgUtil {
 
     public static void main(String[] args) throws Exception {
         if (args.length == 0) {
-            System.out.println("Search pattern expected as an argument");
+            System.err.println("Search pattern expected as an argument");
             System.exit(1);
         }
         String pattern = args[0];
@@ -45,16 +45,15 @@ public class MsgUtil {
         ) {
             discoveryProducer.setReplyDest(discoveryConsumer.getDestination());
             discoveryProducer.sendTextMessage("*discovery-request*");
-            System.out.println("sent discovery request");
             List<String> discoveredNodes = new ArrayList<>();
             Message message;
             while ((message = discoveryConsumer.receive(RCV_TOUT)) != null) {
                 String msgText = ((TextMessage) message).getText();
                 LOG.info("Discovery reply arrived {}", msgText);
-                System.out.println(msgText);  // just bcos slf4j not working now
                 String nodeName = msgText;  //TODO: make return data structured (json)
                 discoveredNodes.add(nodeName);
             }
+            System.out.println(discoveredNodes);  // just bcos slf4j not working now
             return discoveredNodes;
         } catch (JMSException discExc) {
             LOG.error("Error during discovery phase", discExc);
@@ -68,7 +67,6 @@ public class MsgUtil {
         ) {
             retrieveProducer.setReplyDest(retrieveConsumer.getDestination());
             retrieveProducer.sendTextMessage(destNodeName);
-            System.out.println("sent retrieve request for " + destNodeName);
             Message message;
             if ((message = retrieveConsumer.receive(RCV_TOUT)) != null) {
                 String msgText = ((TextMessage) message).getText();

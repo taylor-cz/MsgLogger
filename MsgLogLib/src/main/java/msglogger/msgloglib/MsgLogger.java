@@ -5,7 +5,6 @@ import msglogger.msglibrary.JmsDestType;
 import msglogger.msglibrary.JmsLibrary;
 import msglogger.msglibrary.JmsProducer;
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.command.ActiveMQDestination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +25,7 @@ public class MsgLogger {
     private JmsConsumer retrieveConsumer;
     private JmsProducer retrieveProducer;
 
-    public MsgLogger(String brokerURL, String myHostName, DiagCallBack diagCallback) throws JMSException {
+    public MsgLogger(String brokerURL, String myHostName, DiagCallBack diagCallback) {
         this.brokerURL = brokerURL;
         this.myHostName = myHostName;
         this.diagCallback = diagCallback;
@@ -71,25 +70,10 @@ public class MsgLogger {
                 LOG.debug("Received discovery request " + msgText);
                 System.out.println("Received discovery request: " + msgText);   // just bcos logger is not working now
                 // content of the message is non-significant
-                JmsProducer discoveryProducer = null;
-                try {
-                    ActiveMQDestination replyDest = (ActiveMQDestination) message.getJMSReplyTo();
-                    discoveryProducer = jmsLib.getJmsProducer(
-                            JmsDestType.fromString(replyDest.getDestinationTypeAsString()),
-                            replyDest.getPhysicalName());
+                try (JmsProducer discoveryProducer = jmsLib.getJmsProducer(message.getJMSReplyTo())) {
                     discoveryProducer.sendTextMessage(myHostName);
-                    System.out.println("Sent discovery response " + myHostName);
                 } catch (JMSException e) {
                     LOG.error("Error sending reply on discovery request", e);
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        if (discoveryProducer != null) {
-                            discoveryProducer.close();
-                        }
-                    } catch (Exception e) {
-                        // we can't do anything about this
-                    }
                 }
             }
         }
@@ -109,26 +93,12 @@ public class MsgLogger {
                 String destName = msgText;  //TODO: make data structured (json)
                 if (myHostName.equals(destName)) {
                     System.out.println("Received retrieve request: " + msgText);   // just bcos logger is not working now
-                    JmsProducer retrieveProducer = null;
-                    try {
-                        ActiveMQDestination replyDest = (ActiveMQDestination) message.getJMSReplyTo();
-                        retrieveProducer = jmsLib.getJmsProducer(
-                                JmsDestType.fromString(replyDest.getDestinationTypeAsString()),
-                                replyDest.getPhysicalName());
+                    try (JmsProducer retrieveProducer = jmsLib.getJmsProducer(message.getJMSReplyTo())) {
                         String diagData = diagCallback.getDiagData();
                         //TODO: make diag data structured
                         retrieveProducer.sendTextMessage(diagData);
                     } catch (JMSException e) {
                         LOG.error("Error sending reply on discovery request", e);
-                        e.printStackTrace();
-                    } finally {
-                        try {
-                            if (retrieveProducer != null) {
-                                retrieveProducer.close();
-                            }
-                        } catch (Exception e) {
-                            // we can't do anything about this
-                        }
                     }
                 }
             }
