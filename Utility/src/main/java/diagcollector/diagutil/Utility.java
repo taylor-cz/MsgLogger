@@ -1,9 +1,9 @@
-package msglogger.msgutil;
+package diagcollector.diagutil;
 
-import msglogger.msglibrary.JmsConsumer;
-import msglogger.msglibrary.JmsDestType;
-import msglogger.msglibrary.JmsLibrary;
-import msglogger.msglibrary.JmsProducer;
+import diagcollector.msglibrary.JmsConsumer;
+import diagcollector.msglibrary.JmsDestType;
+import diagcollector.msglibrary.JmsLibrary;
+import diagcollector.msglibrary.JmsProducer;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +14,8 @@ import javax.jms.TextMessage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MsgUtil {
-    private static final Logger LOG = LoggerFactory.getLogger(MsgUtil.class);
+public class Utility {
+    private static final Logger LOG = LoggerFactory.getLogger(Utility.class);
     private static final String BROKER_URL = "tcp://localhost:61616";
     private static final String DST_DISCOVERY = "msgdiag-discovery";
     private static final String DST_RETRIEVE = "msgdiag-retrieve";
@@ -53,7 +53,6 @@ public class MsgUtil {
                 String nodeName = msgText;  //TODO: make return data structured (json)
                 discoveredNodes.add(nodeName);
             }
-            System.out.println(discoveredNodes);  // just bcos slf4j not working now
             return discoveredNodes;
         } catch (JMSException discExc) {
             LOG.error("Error during discovery phase", discExc);

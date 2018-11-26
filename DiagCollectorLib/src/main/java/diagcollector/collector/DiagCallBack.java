@@ -1,4 +1,4 @@
-package msglogger.msgloglib;
+package diagcollector.collector;
 
 public interface DiagCallBack {
     String getDiagData();

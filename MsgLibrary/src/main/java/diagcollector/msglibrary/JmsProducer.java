@@ -1,4 +1,4 @@
-package msglogger.msglibrary;
+package diagcollector.msglibrary;
 
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
@@ -13,7 +13,7 @@ public class JmsProducer implements AutoCloseable {
     private final Session session;
     private Destination replyDest;
 
-    JmsProducer(MessageProducer producer, Session session) {
+    /* package */ JmsProducer(MessageProducer producer, Session session) {
         this.producer = producer;
         this.session = session;
         this.replyDest = null;
@@ -49,7 +49,17 @@ public class JmsProducer implements AutoCloseable {
 
     @Override
     public void close() throws JMSException {
-        producer.close();
-        session.close();
+        JMSException exc = null;
+        try {
+            producer.close();
+        } catch (JMSException e) {
+            exc = e;
+        }
+        try {
+            session.close();
+        } catch (JMSException e) {
+            if (exc == null) exc = e;
+        }
+        if (exc != null) throw exc;
     }
 }

@@ -1,5 +1,5 @@
-import msglogger.msgloglib.DiagCallBack;
-import msglogger.msgloglib.MsgLogger;
+import diagcollector.collector.DiagCallBack;
+import diagcollector.collector.DiagCollector;
 
 import javax.jms.JMSException;
 import java.text.SimpleDateFormat;
@@ -32,15 +32,14 @@ public class TestApp {
 
         @Override
         public void run() {
-            MsgLogger msgLogger = null;
+            DiagCollector diagCollector = null;
             try {
-                msgLogger = new MsgLogger(BROKER_URL, hostname, new DiagCallBack() {
+                diagCollector = new DiagCollector(BROKER_URL, hostname, new DiagCallBack() {
                     @Override
                     public String getDiagData() {
                         return new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss:SS").format(Calendar.getInstance().getTime());
                     }
                 });
-                msgLogger.init();
                 while (!Thread.currentThread().isInterrupted())
                     Thread.sleep(5000);
             } catch (JMSException e) {
@@ -50,8 +49,8 @@ public class TestApp {
                 Thread.currentThread().interrupt();
             } finally {
                 try {
-                    if (msgLogger != null)
-                        msgLogger.terminate();
+                    if (diagCollector != null)
+                        diagCollector.terminate();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

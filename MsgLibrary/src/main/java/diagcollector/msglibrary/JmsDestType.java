@@ -1,4 +1,4 @@
-package msglogger.msglibrary;
+package diagcollector.msglibrary;
 
 public enum JmsDestType {
     QUEUE,

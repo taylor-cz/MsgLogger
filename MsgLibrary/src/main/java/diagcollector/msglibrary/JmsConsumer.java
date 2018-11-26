@@ -1,4 +1,4 @@
-package msglogger.msglibrary;
+package diagcollector.msglibrary;
 
 import javax.jms.*;
 
@@ -7,7 +7,7 @@ public class JmsConsumer implements AutoCloseable {
     private final Session session;
     private final Destination destination;
 
-    JmsConsumer(MessageConsumer consumer, Session session, Destination destination) {
+    /* package */ JmsConsumer(MessageConsumer consumer, Session session, Destination destination) {
         this.consumer = consumer;
         this.session = session;
         this.destination = destination;
@@ -27,7 +27,17 @@ public class JmsConsumer implements AutoCloseable {
 
     @Override
     public void close() throws JMSException {
-        consumer.close();
-        session.close();
+        JMSException exc = null;
+        try {
+            consumer.close();
+        } catch (JMSException e) {
+            exc = e;
+        }
+        try {
+            session.close();
+        } catch (JMSException e) {
+            if (exc == null) exc = e;
+        }
+        if (exc != null) throw exc;
     }
 }

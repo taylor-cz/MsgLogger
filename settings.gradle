@@ -1,7 +1,5 @@
-rootProject.name = 'MsgLogger'
-include 'MsgLogLib'
+rootProject.name = 'DiagCollector'
+include 'DiagCollectorLib'
 include 'MsgLibrary'
-include 'MsgUtil'
+include 'Utility'
 include 'TestApp'
-include 'Pokus'
-

@@ -1,4 +1,4 @@
-package msglogger.msglibrary;
+package diagcollector.msglibrary;
 
 import javax.jms.*;
 
