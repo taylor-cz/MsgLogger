@@ -1,10 +1,9 @@
-import diagcollector.collector.DiagCallBack;
 import diagcollector.collector.DiagCollector;
 
 import javax.jms.JMSException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class TestApp {
@@ -34,12 +33,8 @@ public class TestApp {
         public void run() {
             DiagCollector diagCollector = null;
             try {
-                diagCollector = new DiagCollector(BROKER_URL, hostname, new DiagCallBack() {
-                    @Override
-                    public String getDiagData() {
-                        return new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss:SS").format(Calendar.getInstance().getTime());
-                    }
-                });
+                diagCollector = new DiagCollector(BROKER_URL, hostname,
+                        () -> LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss:SSS")));
                 while (!Thread.currentThread().isInterrupted())
                     Thread.sleep(5000);
             } catch (JMSException e) {

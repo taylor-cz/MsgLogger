@@ -49,7 +49,7 @@ public class Utility {
             Message message;
             while ((message = discoveryConsumer.receive(RCV_TOUT)) != null) {
                 String msgText = ((TextMessage) message).getText();
-                LOG.info("Discovery reply arrived {}", msgText);
+                LOG.debug("Discovery reply arrived {}", msgText);
                 String nodeName = msgText;  //TODO: make return data structured (json)
                 discoveredNodes.add(nodeName);
             }
