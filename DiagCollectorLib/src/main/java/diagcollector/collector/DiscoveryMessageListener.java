@@ -15,7 +15,7 @@ class DiscoveryMessageListener implements MessageListener {
     private JmsLibrary jmsLib;
     private String myHostName;
 
-    DiscoveryMessageListener(JmsLibrary jmsLib, String myHostName) {
+    /* package */ DiscoveryMessageListener(JmsLibrary jmsLib, String myHostName) {
         this.jmsLib = jmsLib;
         this.myHostName = myHostName;
     }
