@@ -16,7 +16,7 @@ class RetrieveMessageListener implements MessageListener {
     private String myHostName;
     private DiagCallBack diagCallback;
 
-    /* package */ public RetrieveMessageListener(JmsLibrary jmsLib, String myHostName, DiagCallBack diagCallback) {
+    /* package */ RetrieveMessageListener(JmsLibrary jmsLib, String myHostName, DiagCallBack diagCallback) {
         this.jmsLib = jmsLib;
         this.myHostName = myHostName;
         this.diagCallback = diagCallback;

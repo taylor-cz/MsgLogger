@@ -4,8 +4,6 @@ import diagcollector.msglibrary.JmsConsumer;
 import diagcollector.msglibrary.JmsDestType;
 import diagcollector.msglibrary.JmsLibrary;
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.jms.JMSException;
 
@@ -13,7 +11,6 @@ import javax.jms.JMSException;
  * Main class that is supposed to be included in user application.
  */
 public class DiagCollector {
-    private static final Logger LOG = LoggerFactory.getLogger(DiagCollector.class);
     private static final String DST_DISCOVERY = "msgdiag-discovery";
     private static final String DST_RETRIEVE = "msgdiag-retrieve";
     private final String myHostName;
