@@ -9,19 +9,21 @@ import org.slf4j.LoggerFactory;
 
 import javax.jms.JMSException;
 
+/**
+ * Main class that is supposed to be included in user application.
+ */
 public class DiagCollector {
     private static final Logger LOG = LoggerFactory.getLogger(DiagCollector.class);
     private static final String DST_DISCOVERY = "msgdiag-discovery";
     private static final String DST_RETRIEVE = "msgdiag-retrieve";
     private final String myHostName;
-    private final String brokerURL;
     private final DiagCallBack diagCallback;
     private JmsLibrary jmsLib;
     private JmsConsumer discoveryConsumer;
     private JmsConsumer retrieveConsumer;
 
     public DiagCollector(String brokerURL, String myHostName, DiagCallBack diagCallback) throws JMSException {
-        this.brokerURL = brokerURL;
+        this.jmsLib = new JmsLibrary(new ActiveMQConnectionFactory(brokerURL));
         this.myHostName = myHostName;
         this.diagCallback = diagCallback;
         init();
@@ -29,7 +31,6 @@ public class DiagCollector {
 
     private void init() throws JMSException {
         try {
-            jmsLib = new JmsLibrary(new ActiveMQConnectionFactory(brokerURL));
             discoveryConsumer = jmsLib.getJmsConsumer(JmsDestType.TOPIC, DST_DISCOVERY);
             discoveryConsumer.setMessageListener(new DiscoveryMessageListener(jmsLib, myHostName));
             retrieveConsumer = jmsLib.getJmsConsumer(JmsDestType.TOPIC, DST_RETRIEVE);
@@ -66,5 +67,4 @@ public class DiagCollector {
         }
         if (exc != null) throw exc;
     }
-
 }

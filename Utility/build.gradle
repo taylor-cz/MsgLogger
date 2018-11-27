@@ -13,5 +13,4 @@ repositories {
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.25'
     compile project(':MsgLibrary')
-    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
