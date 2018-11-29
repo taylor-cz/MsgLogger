@@ -1,16 +1,21 @@
-plugins {
-    id 'java'
-}
-
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    compile 'org.slf4j:slf4j-api:1.7.25'
+    compileOnly libraries.lombok
+
     compile project(':MsgLibrary')
+    compile libraries.gson
+
+    testCompile libraries.junit
+}
+
+
+sourceSets {
+    integrationTest {
+        java {
+            srcDir 'src/integrationtest/java'
+        }
+        resources {
+            srcDir 'src/integrationtest/resources'
+        }
+        compileClasspath += sourceSets.main.runtimeClasspath
+    }
 }

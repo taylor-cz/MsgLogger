@@ -2,8 +2,8 @@ This project is a simple framework intended for obtaining diagnostic information
 
 Components:
 
-Utility    - an utility used to synchronously request diagnostic info from remote nodes
-             which hostname contains a substring given as an argument to the utility.
+Utility    - an diagnosticCollector used to synchronously request diagnostic info from remote nodes
+             which hostname contains a substring given as an argument to the diagnosticCollector.
 
 TestApp    - a multithreaded application simulating multiple remote nodes to obtain diagnostic
              information from.
