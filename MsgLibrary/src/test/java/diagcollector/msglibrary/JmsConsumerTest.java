@@ -29,6 +29,7 @@ public class JmsConsumerTest {
         jmsConsumer = new JmsConsumer(mockMessageConsumer, mockSession, mockDestination);
     }
 
+    // no need to test activemq - we never test frameworks that used, only self-created code.
     @Test
     public void receive() throws JMSException {
         jmsConsumer.receive(10);

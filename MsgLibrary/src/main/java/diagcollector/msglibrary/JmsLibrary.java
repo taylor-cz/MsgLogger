@@ -18,6 +18,7 @@ public class JmsLibrary implements AutoCloseable {
     }
 
     // create temporary consumer, for use with replyTo message property
+    //why it is not named getTemporaryJmsConsumer(..) ?
     public JmsConsumer getJmsConsumer(JmsDestType destType) throws JMSException {
         return getJmsConsumer(destType, null);
     }
@@ -90,7 +91,7 @@ public class JmsLibrary implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws JMSException {
         connection.close();
     }
 }

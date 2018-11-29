@@ -1,15 +1,25 @@
-plugins {
-    id 'java'
-}
+ext.libraries = [
+        commons_pool2        : 'org.apache.commons:commons-pool2:2.4.2',
+        activemq_broker      : 'org.apache.activemq:activemq-broker:5.15.3',
+        activemq_kahadb_store: 'org.apache.activemq:activemq-kahadb-store:5.15.3',
+        slf4j_api            : 'org.slf4j:slf4j-api:1.7.25',
+        logback_classic      : 'ch.qos.logback:logback-classic:1.1.3',
+        gson                 : 'com.google.code.gson:gson:2.8.5',
+        lombok               : 'org.projectlombok:lombok:1.18.4',
+        junit                : 'junit:junit:4.12',
+        mockito_core         : 'org.mockito:mockito-core:2.+'
+]
 
-version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
-}
+subprojects {
+    apply plugin: 'java'
 
-dependencies {
-    compile 'ch.qos.logback:logback-classic:1.1.3'
+    version '1.0-SNAPSHOT'
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
 }
